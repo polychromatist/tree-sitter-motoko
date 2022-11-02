@@ -9,6 +9,3 @@ The grammar used in this reflection is found [here](https://github.com/dfinity/m
 - I want to understand the Motoko language.
 - There is no tree-sitter grammar.
 
-### todo
-
-- simplify AST representation
