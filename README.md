@@ -7,5 +7,5 @@ The grammar used in this reflection is found [here](https://github.com/dfinity/m
 ### why
 
 - I want to understand the Motoko language.
-- There is no tree-sitter grammar.
+- There is no tree-sitter grammar. Some text editors rely on tree-sitter integration.
 
