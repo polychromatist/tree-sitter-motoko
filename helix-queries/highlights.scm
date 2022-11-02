@@ -4,7 +4,6 @@
 
 [
  "debug"
- "debug_show"
 ] @keyword.directive
 
 [
@@ -28,6 +27,7 @@
  "not"
  "from_candid"
  "to_candid"
+ "debug_show"
 ] @keyword.operator
 
 [
@@ -65,10 +65,10 @@
  "stable"
  "flexible"
 ] @keyword.storage.modifier
-(exp_field "var" @keyword.storage.modifier)
-(array "var" @keyword.storage.modifier)
-(typ_array "var" @keyword.storage.modifier)
-(typ_field "var" @keyword.storage.modifier)
+(exp_field "var"? @keyword.storage.modifier)
+(array "var"? @keyword.storage.modifier)
+(typ_array "var"? @keyword.storage.modifier)
+(typ_field "var"? @keyword.storage.modifier)
 
 [
  "let"
@@ -105,16 +105,15 @@
 (blockcomment) @comment.block
 
 (typ_id top: (name) @namespace)
-
 (typ_id name: (name) @type.builtin
  (#match? @type.builtin "^(Bool|Char|Text|Float|Int|Int8|Int16|Int32|Int64|Nat|Nat8|Nat16|Nat32|Nat64|Blob|Principal|Error)$"))
-
 (typ_id name: (name) @type)
 
 [
   ":"
   ";"
   ","
+  "."
 ] @punctuation.delimiter
 
 [
@@ -128,15 +127,18 @@
  ">"
 ] @punctuation.bracket
 
-variant_name: (name) @tag
+(imp . (name) @namespace)
+
+variant_name: (name) @attribute
+(typ_tag) @attribute
 
 (placeholder) @constant.builtin
 
-(typ_tag name: (name) @tag)
 (typ_field name: (name) @variable.other.member)
 (typ_bind binding: (name) @constant)
 
-(dec_func pat: (pat_plain (name) @variable.parameter))
+(dec_func pat: (pat_tuple (name) @variable.parameter))
+(dec_func pat: (pat_tuple (pat_bin) @variable.parameter))
 (dec_func name: (name) @function)
 (dec_type name: (name) @type)
 
@@ -152,5 +154,7 @@ variant_name: (name) @tag
 (call invoked: (name) @function)
 (call invoked: (exp_post member: (name) @function))
 
-(exp_post member: (name) @variable)
+(dec (name) @variable)
+(exp (name) @variable)
 (exp_field name: (name) @variable.other.member)
+(exp_post member: (name) @variable)
