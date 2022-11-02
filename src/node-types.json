@@ -279,7 +279,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -362,7 +366,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -377,7 +385,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -657,7 +669,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -699,7 +715,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -758,7 +778,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -1472,25 +1496,6 @@
     }
   },
   {
-    "type": "exp_nest",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "exp",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "exp_obj",
     "named": true,
     "fields": {},
@@ -1742,7 +1747,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -1783,7 +1792,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -1809,7 +1822,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -1819,7 +1836,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -1835,7 +1856,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -1894,7 +1919,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -1909,7 +1938,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -1924,7 +1957,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -1934,7 +1971,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -2382,7 +2423,11 @@
       "required": true,
       "types": [
         {
-          "type": "exp_nest",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
           "named": true
         }
       ]
@@ -2397,7 +2442,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]
@@ -2920,7 +2969,11 @@
         "required": true,
         "types": [
           {
-            "type": "exp_nest",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
             "named": true
           }
         ]

@@ -6051,7 +6051,8 @@
   "inline": [
     "character",
     "exp_nonvar",
-    "pat_nullary"
+    "pat_nullary",
+    "exp_nest"
   ],
   "supertypes": [
     "dec_nonvar",

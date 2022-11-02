@@ -85,18 +85,19 @@
  "system"
 ] @constructor
 
+"=" @operator
 [
  "!"
  "?"
  "->"
  op: (_)
+ unary: (_)
  "<:"
  ":="
 ] @operator
 (unassign) @operator
 (binassign) @operator
 (unop) @operator
-"=" @operator
 
 (nat) @constant.numeric.integer
 (float) @constant.numeric.float
@@ -148,9 +149,8 @@ variant_name: (name) @tag
 (text (escape) @constant.character.escape)
 (text) @string
 
+(call invoked: (name) @function)
+(call invoked: (exp_post member: (name) @function))
+
 (exp_post member: (name) @variable)
-invoked: (exp_post (name) @function .)
-; (exp_post (name) @variable.other.member)
 (exp_field name: (name) @variable.other.member)
-(exp_nullary (name) @variable)
-(pat_plain (name) @variable)

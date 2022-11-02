@@ -84,7 +84,7 @@ module.exports = grammar({
   ],
   word: $ => $.name,
   extras: $ => [WHITESPACE, $.linecomment, $.blockcomment],
-  inline: $ => [$.character, $.exp_nonvar, $.pat_nullary],
+  inline: $ => [$.character, $.exp_nonvar, $.pat_nullary, $.exp_nest],
   externals: $ => [$._text_literal, $.blockcomment],
   
   rules: {
