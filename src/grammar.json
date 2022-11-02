@@ -4581,8 +4581,16 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "pat_plain"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "pat_plain"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         },
@@ -4594,8 +4602,16 @@
               "value": "query"
             },
             {
-              "type": "SYMBOL",
-              "name": "pat_plain"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "pat_plain"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }
@@ -5746,7 +5762,7 @@
     },
     "name": {
       "type": "PATTERN",
-      "value": "[a-zA-Z][0-9a-zA-Z_]*"
+      "value": "[a-zA-Z_][0-9a-zA-Z_]*"
     },
     "linecomment": {
       "type": "TOKEN",

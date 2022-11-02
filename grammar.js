@@ -41,7 +41,7 @@ const _annotation = (name, token) => seq(":", field(name + "_type", token));
 const _fish = (token) => seq("<", _list(token, ","), ">");
 
 const WHITESPACE = /\s/;
-const NAME = /[a-zA-Z][0-9a-zA-Z_]*/;
+const NAME = /[a-zA-Z_][0-9a-zA-Z_]*/;
 const DECIMAL_DIGIT = /[0-9]/;
 const HEX_DIGIT = /[0-9a-f-A-F]/;
 
@@ -506,8 +506,8 @@ module.exports = grammar({
     pat_tuple: $ => seq("(", _list($._pat_bin_raw, ","), ")"),
       
     shared_pat_opt: $ => choice(
-      seq("shared", optional("query"), $.pat_plain),
-      seq("query", $.pat_plain)
+      seq("shared", optional("query"), optional($.pat_plain)),
+      seq("query", optional($.pat_plain))
     ),
     
     typ_obj: $ => seq("{", _list($.typ_field, ";"), "}"),
