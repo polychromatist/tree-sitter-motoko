@@ -6,5 +6,9 @@ The grammar used in this reflection is found [here](https://github.com/dfinity/m
 
 ### why
 
-1. I want to understand the Motoko language.
-2. There is no tree-sitter grammar.
+- I want to understand the Motoko language.
+- There is no tree-sitter grammar.
+
+### todo
+
+- simplify AST representation
