@@ -30,6 +30,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "array",
+        "named": true
+      },
+      {
         "type": "assert",
         "named": true
       },
@@ -54,6 +58,10 @@
         "named": true
       },
       {
+        "type": "call",
+        "named": true
+      },
+      {
         "type": "continue",
         "named": true
       },
@@ -70,7 +78,27 @@
         "named": true
       },
       {
+        "type": "exp_annotated",
+        "named": true
+      },
+      {
         "type": "exp_bin",
+        "named": true
+      },
+      {
+        "type": "exp_nullary",
+        "named": true
+      },
+      {
+        "type": "exp_post",
+        "named": true
+      },
+      {
+        "type": "exp_un",
+        "named": true
+      },
+      {
+        "type": "exp_variant",
         "named": true
       },
       {
@@ -103,6 +131,10 @@
       },
       {
         "type": "return",
+        "named": true
+      },
+      {
+        "type": "sec_ctor",
         "named": true
       },
       {
@@ -172,6 +204,28 @@
     ]
   },
   {
+    "type": "pat_plain",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "lit",
+        "named": true
+      },
+      {
+        "type": "name",
+        "named": true
+      },
+      {
+        "type": "pat_tuple",
+        "named": true
+      },
+      {
+        "type": "placeholder",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "typ_nullary",
     "named": true,
     "subtypes": [
@@ -198,21 +252,6 @@
     ]
   },
   {
-    "type": "actor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "exp_plain",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "array",
     "named": true,
     "fields": {},
@@ -221,7 +260,11 @@
       "required": false,
       "types": [
         {
-          "type": "exp_nonvar",
+          "type": "dec_nonvar",
+          "named": true
+        },
+        {
+          "type": "exp_nondec",
           "named": true
         }
       ]
@@ -251,7 +294,39 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "exp_annotated",
+            "named": true
+          },
+          {
             "type": "exp_bin",
+            "named": true
+          },
+          {
+            "type": "exp_nullary",
+            "named": true
+          },
+          {
+            "type": "exp_post",
+            "named": true
+          },
+          {
+            "type": "exp_un",
+            "named": true
+          },
+          {
+            "type": "exp_variant",
+            "named": true
+          },
+          {
+            "type": "sec_ctor",
             "named": true
           }
         ]
@@ -317,7 +392,39 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "exp_annotated",
+            "named": true
+          },
+          {
             "type": "exp_bin",
+            "named": true
+          },
+          {
+            "type": "exp_nullary",
+            "named": true
+          },
+          {
+            "type": "exp_post",
+            "named": true
+          },
+          {
+            "type": "exp_un",
+            "named": true
+          },
+          {
+            "type": "exp_variant",
+            "named": true
+          },
+          {
+            "type": "sec_ctor",
             "named": true
           }
         ]
@@ -482,7 +589,23 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "exp_nullary",
+            "named": true
+          },
+          {
             "type": "exp_post",
+            "named": true
+          },
+          {
+            "type": "sec_ctor",
             "named": true
           }
         ]
@@ -504,12 +627,28 @@
     "named": true,
     "fields": {
       "candidate": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "pat_nullary",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "pat_field",
             "named": true
+          },
+          {
+            "type": "pat_plain",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
           }
         ]
       },
@@ -530,12 +669,28 @@
     "named": true,
     "fields": {
       "guard": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "pat_nullary",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "pat_field",
             "named": true
+          },
+          {
+            "type": "pat_plain",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
           }
         ]
       },
@@ -604,21 +759,6 @@
       "types": [
         {
           "type": "exp_nest",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "debug_show",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "exp_un",
           "named": true
         }
       ]
@@ -1011,11 +1151,85 @@
       "required": true,
       "types": [
         {
+          "type": "dec_nonvar",
+          "named": true
+        },
+        {
           "type": "dec_var",
           "named": true
         },
         {
-          "type": "exp_nonvar",
+          "type": "exp_nondec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exp_annotated",
+    "named": true,
+    "fields": {
+      "annotation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "typ_func",
+            "named": true
+          },
+          {
+            "type": "typ_nullary",
+            "named": true
+          },
+          {
+            "type": "typ_pre",
+            "named": true
+          },
+          {
+            "type": "typ_un",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exp_annotated",
+          "named": true
+        },
+        {
+          "type": "exp_bin",
+          "named": true
+        },
+        {
+          "type": "exp_nullary",
+          "named": true
+        },
+        {
+          "type": "exp_post",
+          "named": true
+        },
+        {
+          "type": "exp_un",
+          "named": true
+        },
+        {
+          "type": "exp_variant",
+          "named": true
+        },
+        {
+          "type": "sec_ctor",
           "named": true
         }
       ]
@@ -1025,39 +1239,93 @@
     "type": "exp_bin",
     "named": true,
     "fields": {
-      "annotation": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "typ_nobin",
-            "named": true
-          }
-        ]
-      },
       "arg0": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "exp_annotated",
+            "named": true
+          },
+          {
             "type": "exp_bin",
+            "named": true
+          },
+          {
+            "type": "exp_nullary",
+            "named": true
+          },
+          {
+            "type": "exp_post",
+            "named": true
+          },
+          {
+            "type": "exp_un",
+            "named": true
+          },
+          {
+            "type": "exp_variant",
+            "named": true
+          },
+          {
+            "type": "sec_ctor",
             "named": true
           }
         ]
       },
       "arg1": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "exp_annotated",
+            "named": true
+          },
+          {
             "type": "exp_bin",
+            "named": true
+          },
+          {
+            "type": "exp_nullary",
+            "named": true
+          },
+          {
+            "type": "exp_post",
+            "named": true
+          },
+          {
+            "type": "exp_un",
+            "named": true
+          },
+          {
+            "type": "exp_variant",
+            "named": true
+          },
+          {
+            "type": "sec_ctor",
             "named": true
           }
         ]
       },
       "op": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": " < ",
@@ -1165,20 +1433,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "exp_bin",
-          "named": true
-        },
-        {
-          "type": "exp_un",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1237,38 +1491,35 @@
     }
   },
   {
-    "type": "exp_nonvar",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "dec_nonvar",
-          "named": true
-        },
-        {
-          "type": "exp_nondec",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "exp_obj",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
         {
           "type": "exp_field",
           "named": true
         },
         {
+          "type": "exp_nullary",
+          "named": true
+        },
+        {
           "type": "exp_post",
+          "named": true
+        },
+        {
+          "type": "sec_ctor",
           "named": true
         }
       ]
@@ -1320,6 +1571,16 @@
             "named": true
           }
         ]
+      },
+      "unary": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          }
+        ]
       }
     },
     "children": {
@@ -1353,6 +1614,88 @@
     "type": "exp_un",
     "named": true,
     "fields": {
+      "unary": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "?",
+            "named": false
+          },
+          {
+            "type": "actor",
+            "named": false
+          },
+          {
+            "type": "debug_show",
+            "named": false
+          },
+          {
+            "type": "from_candid",
+            "named": false
+          },
+          {
+            "type": "not",
+            "named": false
+          },
+          {
+            "type": "to_candid",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exp",
+          "named": true
+        },
+        {
+          "type": "exp_nullary",
+          "named": true
+        },
+        {
+          "type": "exp_post",
+          "named": true
+        },
+        {
+          "type": "exp_un",
+          "named": true
+        },
+        {
+          "type": "exp_variant",
+          "named": true
+        },
+        {
+          "type": "sec_ctor",
+          "named": true
+        },
+        {
+          "type": "unassign",
+          "named": true
+        },
+        {
+          "type": "unop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exp_variant",
+    "named": true,
+    "fields": {
       "value": {
         "multiple": false,
         "required": false,
@@ -1365,7 +1708,7 @@
       },
       "variant": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "name",
@@ -1373,48 +1716,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "actor",
-          "named": true
-        },
-        {
-          "type": "debug_show",
-          "named": true
-        },
-        {
-          "type": "exp_post",
-          "named": true
-        },
-        {
-          "type": "exp_un",
-          "named": true
-        },
-        {
-          "type": "from_candid",
-          "named": true
-        },
-        {
-          "type": "not",
-          "named": true
-        },
-        {
-          "type": "to_candid",
-          "named": true
-        },
-        {
-          "type": "unassign",
-          "named": true
-        },
-        {
-          "type": "unop",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1456,21 +1757,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "from_candid",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "exp_un",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1564,7 +1850,11 @@
       "required": true,
       "types": [
         {
-          "type": "pat_nullary",
+          "type": "pat_field",
+          "named": true
+        },
+        {
+          "type": "pat_plain",
           "named": true
         },
         {
@@ -1657,21 +1947,6 @@
     "fields": {}
   },
   {
-    "type": "not",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "exp_un",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "obj_sort",
     "named": true,
     "fields": {}
@@ -1681,11 +1956,23 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "pat_bin",
+          "named": true
+        },
+        {
+          "type": "pat_field",
+          "named": true
+        },
+        {
+          "type": "pat_plain",
+          "named": true
+        },
+        {
+          "type": "pat_un",
           "named": true
         }
       ]
@@ -1696,22 +1983,70 @@
     "named": true,
     "fields": {
       "arg0": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "pat_bin",
             "named": true
+          },
+          {
+            "type": "pat_field",
+            "named": true
+          },
+          {
+            "type": "pat_plain",
+            "named": true
+          },
+          {
+            "type": "pat_un",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
           }
         ]
       },
       "arg1": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "pat_bin",
             "named": true
+          },
+          {
+            "type": "pat_field",
+            "named": true
+          },
+          {
+            "type": "pat_plain",
+            "named": true
+          },
+          {
+            "type": "pat_un",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
           }
         ]
       },
@@ -1737,11 +2072,19 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "pat_bin",
+          "named": true
+        },
+        {
+          "type": "pat_field",
+          "named": true
+        },
+        {
+          "type": "pat_plain",
           "named": true
         },
         {
@@ -1788,52 +2131,6 @@
     }
   },
   {
-    "type": "pat_nullary",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "pat_field",
-          "named": true
-        },
-        {
-          "type": "pat_plain",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pat_plain",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "lit",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pat_tuple",
-          "named": true
-        },
-        {
-          "type": "placeholder",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "pat_tuple",
     "named": true,
     "fields": {},
@@ -1844,6 +2141,18 @@
         {
           "type": "pat_bin",
           "named": true
+        },
+        {
+          "type": "pat_field",
+          "named": true
+        },
+        {
+          "type": "pat_plain",
+          "named": true
+        },
+        {
+          "type": "pat_un",
+          "named": true
         }
       ]
     }
@@ -1853,16 +2162,36 @@
     "named": true,
     "fields": {
       "option": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "pat_field",
+            "named": true
+          },
+          {
+            "type": "pat_plain",
+            "named": true
+          },
+          {
             "type": "pat_un",
             "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
           }
         ]
       },
-      "pat_op": {
+      "unary": {
         "multiple": false,
         "required": false,
         "types": [
@@ -1892,11 +2221,11 @@
       "required": false,
       "types": [
         {
-          "type": "lit",
+          "type": "pat_field",
           "named": true
         },
         {
-          "type": "pat_nullary",
+          "type": "pat_plain",
           "named": true
         },
         {
@@ -1950,7 +2279,23 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "exp_nullary",
+            "named": true
+          },
+          {
             "type": "exp_post",
+            "named": true
+          },
+          {
+            "type": "sec_ctor",
             "named": true
           }
         ]
@@ -2044,21 +2389,6 @@
     }
   },
   {
-    "type": "to_candid",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "exp",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "try",
     "named": true,
     "fields": {
@@ -2097,11 +2427,23 @@
           "named": true
         },
         {
-          "type": "typ_nobin",
+          "type": "typ_func",
+          "named": true
+        },
+        {
+          "type": "typ_nullary",
           "named": true
         },
         {
           "type": "typ_or",
+          "named": true
+        },
+        {
+          "type": "typ_pre",
+          "named": true
+        },
+        {
+          "type": "typ_un",
           "named": true
         }
       ]
@@ -2268,6 +2610,10 @@
         "required": true,
         "types": [
           {
+            "type": "typ_nullary",
+            "named": true
+          },
+          {
             "type": "typ_un",
             "named": true
           }
@@ -2278,7 +2624,19 @@
         "required": true,
         "types": [
           {
-            "type": "typ_nobin",
+            "type": "typ_func",
+            "named": true
+          },
+          {
+            "type": "typ_nullary",
+            "named": true
+          },
+          {
+            "type": "typ_pre",
+            "named": true
+          },
+          {
+            "type": "typ_un",
             "named": true
           }
         ]
@@ -2376,25 +2734,6 @@
     }
   },
   {
-    "type": "typ_nobin",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "typ_func",
-          "named": true
-        },
-        {
-          "type": "typ_pre",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "typ_obj",
     "named": true,
     "fields": {},
@@ -2458,7 +2797,7 @@
           "named": true
         },
         {
-          "type": "typ_obj",
+          "type": "typ_nullary",
           "named": true
         },
         {

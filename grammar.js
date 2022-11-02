@@ -73,10 +73,10 @@ const UTF8_ENC = [
 module.exports = grammar({
   name: 'motoko',
   
-  supertypes: $ => [$.dec_nonvar, $.exp_nondec, $.lit, $.exp_nullary, $.typ_nullary],
+  supertypes: $ => [$.dec_nonvar, $.exp_nondec, $.lit, $.exp_nullary, $.typ_nullary, $.pat_plain],
   conflicts: $ => [
     [$.exp_field, $.exp_nullary],
-    [$._exp_obj_compose, $.exp_un],
+    [$._exp_obj_compose, $._exp_un_raw],
     [$.exp_field, $.dec],
     [$._dec_var_typ, $._exp_field_typ],
     [$._typ_func_short_fish, $._typ_func_fish],
@@ -84,7 +84,7 @@ module.exports = grammar({
   ],
   word: $ => $.name,
   extras: $ => [WHITESPACE, $.linecomment, $.blockcomment],
-  inline: $ => [$.character],
+  inline: $ => [$.character, $.exp_nonvar, $.pat_nullary],
   externals: $ => [$._text_literal, $.blockcomment],
   
   rules: {
@@ -176,9 +176,9 @@ module.exports = grammar({
     
     exp_obj: $ => seq("{", choice($._exp_obj_fields, $._exp_obj_compose), "}"),
     _exp_obj_fields: $ => _list1($.exp_field, ";"),
-    _exp_obj_compose: $ => seq($.exp_post, choice(
-      repeat1(seq("and", $.exp_post)),
-      seq(repeat(seq("and", $.exp_post)), $._exp_obj_with))),
+    _exp_obj_compose: $ => seq($._exp_post_raw, choice(
+      repeat1(seq("and", $._exp_post_raw)),
+      seq(repeat(seq("and", $._exp_post_raw)), $._exp_obj_with))),
     _exp_obj_with: $ => seq("with", _list1($.exp_field, ";")),
     
     exp_field: $ => prec.dynamic(2, seq(
@@ -197,63 +197,76 @@ module.exports = grammar({
       $.exp_plain,
       $.name),
     
-    exp_post: $ => choice(
+    _exp_post_raw: $ => choice(
       $.exp_nullary,
       $.array,
+      $.call,
+      $.sec_ctor,
+      $.exp_post
+      ),
+    
+    exp_post: $ => choice(
       $._exp_index,
       $._exp_member,
-      $.call,
-      $._exp_bang,
-      $.sec_ctor),
+      $._exp_bang),
     array: $ => seq("[",
       optional("var"),
       _list($.exp_nonvar, ","),
       "]"),
-    _exp_index: $ => prec.left(PREC.INDEX, seq($.exp_post, "[", field("index", $.exp), "]")),
-    _exp_member: $ => seq($.exp_post, ".", field("member", choice($.nat, $.name))),
-    _exp_bang: $ => seq($.exp_post, "!"),
+    _exp_index: $ => prec.left(PREC.INDEX, seq($._exp_post_raw, "[", field("index", $.exp), "]")),
+    _exp_member: $ => seq($._exp_post_raw, ".", field("member", choice($.nat, $.name))),
+    _exp_bang: $ => prec.left(seq($._exp_post_raw, field("unary", "!"))),
 
     call: $ => prec.left(PREC.CALL, seq(
-      field("invoked", $.exp_post),
+      field("invoked", $._exp_post_raw),
       optional($._call_fish),
       field("arg", $.exp_nullary)
     )),
     _call_fish: $ => seq("<", _list($.typ, ","), ">"),
     
     sec_ctor: $ => seq(
-      "(", "system", field("library", $.exp_post),
+      "(", "system", field("library", $._exp_post_raw),
       ".", field("name", $.name), ")"),   
     unop: () => choice("-", "+", "^"),
     unassign: () => choice("+=", "-=", "^="),
     
+    _exp_un_raw: $ => prec.dynamic(1, choice(
+      $._exp_post_raw,
+      $.exp_variant,
+      $.exp_un,
+      )),
+    
     exp_un: $ => prec.dynamic(1, choice(
-      $.exp_post,
-      $._exp_variant,
       $._exp_option,
-      $._exp_unop,
       $._exp_unassign,
-      $.actor,
-      $.not,
-      $.debug_show,
-      $.to_candid,
-      $.from_candid)),
-    _exp_variant: $ => seq(
+      $._exp_unop,
+      $._actor,
+      $._not,
+      $._debug_show,
+      $._to_candid,
+      $._from_candid)),
+    exp_variant: $ => seq(
       "#",
       field("variant", $.name),
       optional(field("value", $.exp_nullary))),
-    _exp_option: $ => prec.right(seq("?", $.exp_un)),
-    _exp_unop: $ => prec.right(seq($.unop, $.exp_un)),
-    _exp_unassign: $ => prec.right(seq($.unassign, $.exp_un)),
+    _exp_option: $ => prec.right(seq(field("unary", "?"), $._exp_un_raw)),
+    _exp_unop: $ => prec.right(seq($.unop, $._exp_un_raw)),
+    _exp_unassign: $ => prec.right(seq($.unassign, $._exp_un_raw)),
     
-    actor: $ => seq("actor", $.exp_plain),
+    _actor: $ => seq(field("unary", "actor"), $.exp_plain),
     
-    not: $ => prec.right(seq("not", $.exp_un)),
+    _not: $ => prec.right(seq(field("unary", "not"), $._exp_un_raw)),
     
-    debug_show: $ => prec.right(seq("debug_show", $.exp_un)),
+    _debug_show: $ => prec.right(seq(field("unary", "debug_show"), $._exp_un_raw)),
     
-    to_candid: $ => seq("to_candid", "(", _list($.exp, ","), ")"),
+    _to_candid: $ => seq(field("unary", "to_candid"), "(", _list($.exp, ","), ")"),
     
-    from_candid: $ => prec.right(seq("from_candid", $.exp_un)),
+    _from_candid: $ => prec.right(seq(field("unary", "from_candid"), $._exp_un_raw)),
+    
+    _exp_bin_raw: $ => choice(
+      $.exp_bin,
+      $._exp_un_raw,
+      $.exp_annotated),
     
     exp_bin: $ => choice(
       ...[
@@ -273,7 +286,7 @@ module.exports = grammar({
         ["#", PREC.CONCAT],
         ["**", PREC.EXP],
         ["**%", PREC.EXPWRAP]
-        ].map(([s, p]) => prec.left(p, _binop($.exp_bin, s) )),
+        ].map(([s, p]) => prec.left(p, _binop($._exp_bin_raw, s) )),
       // technically there's no precedence, but we need to resolve the conflict for the parser
       // choose left
       ...[
@@ -288,14 +301,20 @@ module.exports = grammar({
         ["<<>", PREC.BROTATE],
         ["<>>", PREC.BROTATE],
         ].map(([s, p]) =>
-          prec(p, prec.left(p, _binop($.exp_bin, s)) )),
-      $.exp_un,
-      $._exp_bin_annotated
+          prec(p, prec.left(p, _binop($._exp_bin_raw, s)) )),
     ),
-    _exp_bin_annotated: $ => prec.left(PREC.COLON, seq($.exp_bin, ":", field("annotation", $.typ_nobin))),
+    exp_annotated: $ => prec.left(PREC.COLON, seq($._exp_bin_raw, ":", field("annotation", $._typ_nobin_raw))),
     
     exp_nondec: $ => choice(
       $.exp_bin,
+      $.exp_un,
+      $.exp_nullary,
+      $.array,
+      $.call,
+      $.sec_ctor,
+      $.exp_post,
+      $.exp_variant,
+      $.exp_annotated,
       $.assign,
       $.binassign,
       $.return,
@@ -321,7 +340,7 @@ module.exports = grammar({
     ),
     
     assign: $ => prec.right(PREC.ASSIGN, seq(
-      field("binding", $.exp_bin),
+      field("binding", $._exp_bin_raw),
       field("op", ":="),
       field("value", $.exp))),
     
@@ -346,7 +365,7 @@ module.exports = grammar({
         "<>>=",
         "@="
         ].map(s => prec.right(PREC.ASSIGN, seq(
-          field("binding", $.exp_bin),
+          field("binding", $._exp_bin_raw),
           field("op", s),
           field("value", $.exp))))),
     
@@ -443,31 +462,37 @@ module.exports = grammar({
       optional(seq(":", field("field_type", $.typ))),
       optional(seq("=", field("value", $.pat)))),
     
-    pat: $ => choice($.pat_bin),
+    pat: $ => $._pat_bin_raw,
+    
+    _pat_bin_raw: $ => choice(
+      $._pat_un_raw,
+      $.pat_bin),
     
     pat_bin: $ => choice(
-      $.pat_un,
       $._pat_or,
       $._pat_annotated),
-    _pat_or: $ => prec.left(1, _binop($.pat_bin, "or")),
-    _pat_annotated: $ => seq($.pat_bin, ":", field("pat_type", $.typ)),
+    _pat_or: $ => prec.left(1, _binop($._pat_bin_raw, "or")),
+    _pat_annotated: $ => seq($._pat_bin_raw, ":", field("pat_type", $.typ)),
+    
+    _pat_un_raw: $ => choice(
+      $.pat_nullary,
+      $.pat_un),
     
     pat_un: $ => choice(
-      $.pat_nullary,
       $._pat_variant,
       $._pat_variant_nullary,
       $._pat_option,
       seq($.unop, $.lit)),
-    _pat_variant: $ => prec.right(PREC.PAT_VARIANT, seq(
-      field("pat_op", "#"),
-      field("variant_name", $.name))),
+    _pat_variant: $ => seq(
+      field("unary", "#"),
+      field("variant_name", $.name)),
     _pat_variant_nullary: $ => prec.right(PREC.PAT_VARIANT_NULLARY, seq(
-      field("pat_op", "#"),
+      field("unary", "#"),
       field("variant_name", $.name),
       $.pat_nullary)),
     _pat_option: $ => prec.right(PREC.PAT_OPTION, seq(
-      field("pat_op", "?"),
-      field("option", $.pat_un))),
+      field("unary", "?"),
+      field("option", $._pat_un_raw))),
     
     pat_nullary: $ => choice(
       $.pat_plain,
@@ -478,7 +503,7 @@ module.exports = grammar({
       $.name,
       $.lit,
       $.pat_tuple),
-    pat_tuple: $ => seq("(", _list($.pat_bin, ","), ")"),
+    pat_tuple: $ => seq("(", _list($._pat_bin_raw, ","), ")"),
       
     shared_pat_opt: $ => choice(
       seq("shared", optional("query"), $.pat_plain),
@@ -527,23 +552,34 @@ module.exports = grammar({
     
     typ_array: $ => seq("[", optional("var"), $.typ, "]"),
     
-    typ_un: $ => choice($.typ_nullary, seq("?", $.typ_un)),
+    _typ_un_raw: $ => choice(
+      $.typ_nullary,
+      $.typ_un),
+    
+    typ_un: $ => seq("?", $._typ_un_raw),
+    
+    _typ_pre_raw: $ => choice(
+      $._typ_un_raw,
+      $.typ_pre
+      ),
     
     typ_pre: $ => choice(
-      $.typ_un,
-      seq("async", $.typ_pre),
+      seq("async", $._typ_pre_raw),
       seq($.obj_sort, $.typ_obj)),
     
-    typ_nobin: $ => choice(
-      $.typ_pre,
-      $.typ_func),
+    _typ_nobin_raw: $ => choice(
+      $._typ_pre_raw,
+      $.typ_func
+      ),
+    
+    //typ_nobin: $ => $.typ_func,
     
     typ_func: $ => seq(
       optional($.func_sort_opt),
       optional($._typ_func_fish),
-      field("param", $.typ_un),
+      field("param", $._typ_un_raw),
       "->",
-      field("return", $.typ_nobin)),
+      field("return", $._typ_nobin_raw)),
     _typ_func_fish: $ => prec.dynamic(1, _fish($.typ_bind)),
     
     func_sort_opt: () => choice(
@@ -551,12 +587,11 @@ module.exports = grammar({
       "query"),
     
     typ: $ => choice(
-      $.typ_nobin,
+      $._typ_nobin_raw,
       $.typ_and,
       $.typ_or),
     
     typ_and: $ => prec.left(PREC.TYPEAND, seq(_binop($.typ, "and"))),
-    
     typ_or: $ => prec.left(PREC.TYPEOR, seq(_binop($.typ, "or"))),
     
     typ_item: $ => choice(

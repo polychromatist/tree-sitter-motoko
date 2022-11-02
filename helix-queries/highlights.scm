@@ -96,6 +96,7 @@
 (unassign) @operator
 (binassign) @operator
 (unop) @operator
+"=" @operator
 
 (nat) @constant.numeric.integer
 (float) @constant.numeric.float
