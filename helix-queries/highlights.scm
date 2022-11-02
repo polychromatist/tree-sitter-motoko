@@ -85,19 +85,58 @@
  "system"
 ] @constructor
 
-"=" @operator
 [
  "!"
  "?"
  "->"
- op: (_)
- unary: (_)
+ "+"
+ "-"
+ "*"
+ "/"
+ "%"
+ "+%"
+ "-%"
+ "*%"
+ "|"
+ "&"
+ "^"
+ "#"
+ "**"
+ "**%"
+ "=="
+ "!="
+ " > "
+ " < "
+ "<="
+ ">="
+ "<<"
+ " >>"
+ "<<>"
+ "<>>"
+ "+="
+ "-="
+ "*="
+ "/="
+ "%="
+ "**-"
+ "+%="
+ "-%="
+ "*%="
+ "**%="
+ "&="
+ "|="
+ "^="
+ "<<="
+ ">>="
+ "<<>="
+ "<>>="
+ "@="
  "<:"
  ":="
+ "^="
+ "="
+ "^"
 ] @operator
-(unassign) @operator
-(binassign) @operator
-(unop) @operator
 
 (nat) @constant.numeric.integer
 (float) @constant.numeric.float
