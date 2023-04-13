@@ -123,6 +123,10 @@
         {
           "type": "SYMBOL",
           "name": "exp_nondec"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dec_let_else"
         }
       ]
     },
@@ -292,6 +296,47 @@
           "content": {
             "type": "SYMBOL",
             "name": "exp"
+          }
+        }
+      ]
+    },
+    "dec_let_else": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "FIELD",
+          "name": "pat",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pat"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "exp"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "else"
+        },
+        {
+          "type": "FIELD",
+          "name": "fallback",
+          "content": {
+            "type": "SYMBOL",
+            "name": "exp_nest"
           }
         }
       ]
@@ -2865,7 +2910,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "asyncstar"
+        },
+        {
+          "type": "SYMBOL",
           "name": "await"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "awaitstar"
         },
         {
           "type": "SYMBOL",
@@ -3611,12 +3664,38 @@
         }
       ]
     },
+    "asyncstar": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "async*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
     "await": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
           "value": "await"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_nest"
+        }
+      ]
+    },
+    "awaitstar": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "await*"
         },
         {
           "type": "SYMBOL",
@@ -5234,6 +5313,19 @@
             {
               "type": "STRING",
               "value": "async"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_typ_pre_raw"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async*"
             },
             {
               "type": "SYMBOL",

@@ -58,10 +58,13 @@
 [
  "private"
  "public"
+ "system"
  "query"
  "shared"
  "async"
+ "async*"
  "await"
+ "await*"
  "stable"
  "flexible"
 ] @keyword.storage.modifier
@@ -75,15 +78,11 @@
  "class"
  "func"
  "type"
-] @keyword.storage.type
-(dec_var "var" @keyword.storage.type)
-
-[
  "actor"
  "object"
  "module"
- "system"
-] @constructor
+] @keyword.storage.type
+(dec_var "var" @keyword.storage.type)
 
 [
  "!"
@@ -168,8 +167,9 @@
 
 (imp . (name) @namespace)
 
-variant_name: (name) @attribute
-(typ_tag) @attribute
+(exp_variant variant: (name) @tag)
+(pat_plain variant_name: (name) @tag)
+(typ_tag) @tag
 
 (placeholder) @constant.builtin
 

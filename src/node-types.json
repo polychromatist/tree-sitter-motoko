@@ -46,7 +46,15 @@
         "named": true
       },
       {
+        "type": "asyncstar",
+        "named": true
+      },
+      {
         "type": "await",
+        "named": true
+      },
+      {
+        "type": "awaitstar",
         "named": true
       },
       {
@@ -377,7 +385,41 @@
     }
   },
   {
+    "type": "asyncstar",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "await",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "exp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "awaitstar",
     "named": true,
     "fields": {},
     "children": {
@@ -797,6 +839,10 @@
       "required": true,
       "types": [
         {
+          "type": "dec_let_else",
+          "named": true
+        },
+        {
           "type": "dec_nonvar",
           "named": true
         },
@@ -1001,6 +1047,46 @@
     "type": "dec_let",
     "named": true,
     "fields": {
+      "pat": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pat",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "exp",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "dec_let_else",
+    "named": true,
+    "fields": {
+      "fallback": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "exp",
+            "named": true
+          }
+        ]
+      },
       "pat": {
         "multiple": false,
         "required": true,
@@ -3247,7 +3333,15 @@
     "named": false
   },
   {
+    "type": "async*",
+    "named": false
+  },
+  {
     "type": "await",
+    "named": false
+  },
+  {
+    "type": "await*",
     "named": false
   },
   {

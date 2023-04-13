@@ -106,7 +106,8 @@ module.exports = grammar({
     dec: $ => choice(
       $.dec_var,
       $.dec_nonvar,
-      $.exp_nondec),
+      $.exp_nondec,
+      $.dec_let_else),
     
     block: $ => seq("{", _list($.dec, ";"), "}"),
     
@@ -130,6 +131,14 @@ module.exports = grammar({
       field("pat", $.pat),
       "=",
       field("value", $.exp)),
+
+    dec_let_else: $ => seq(
+      "let",
+      field("pat", $.pat),
+      "=",
+      field("value", $.exp),
+      "else",
+      field("fallback", $.exp_nest)),
     
     dec_type: $ => seq(
       "type",
@@ -319,7 +328,9 @@ module.exports = grammar({
       $.binassign,
       $.return,
       $.async,
+      $.asyncstar,
       $.await,
+      $.awaitstar,
       $.assert,
       $.label,
       $.break,
@@ -372,8 +383,12 @@ module.exports = grammar({
     return: $ => prec.right(seq("return", optional(field("with", $.exp)))),
     
     async: $ => seq("async", $.exp_nest),
+
+    asyncstar: $ => seq("async*", $.block),
     
     await: $ => seq("await", $.exp_nest),
+
+    awaitstar: $ => seq("await*", $.exp_nest),
     
     assert: $ => seq("assert", $.exp_nest),
     
@@ -565,6 +580,7 @@ module.exports = grammar({
     
     typ_pre: $ => choice(
       seq("async", $._typ_pre_raw),
+      seq("async*", $._typ_pre_raw),
       seq($.obj_sort, $.typ_obj)),
     
     _typ_nobin_raw: $ => choice(
