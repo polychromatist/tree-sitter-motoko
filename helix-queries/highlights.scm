@@ -11,12 +11,14 @@
 ] @keyword.control
 
 "return" @keyword.control.return
+
 "null" @keyword.constant
+
 [
-"if"
-"else"
-"switch"
-"case"
+ "if"
+ "else"
+ "switch"
+ "case"
 ] @keyword.control.conditional
 
 [
@@ -28,6 +30,7 @@
  "from_candid"
  "to_candid"
  "debug_show"
+ "implies"
 ] @keyword.operator
 
 [
@@ -42,13 +45,13 @@
 [
  "try"
  "catch"
+ "finally"
  "throw"
  "assert"
 ] @keyword.control.exception
 
 [
- "true"
- "false"
+ "true" "false"
 ] @constant.builtin.boolean
 
 [
@@ -58,7 +61,6 @@
 [
  "private"
  "public"
- "system"
  "query"
  "shared"
  "async"
@@ -67,133 +69,179 @@
  "await*"
  "stable"
  "flexible"
+ "system"
+ "invariant"
 ] @keyword.storage.modifier
-(exp_field "var"? @keyword.storage.modifier)
-(array "var"? @keyword.storage.modifier)
-(typ_array "var"? @keyword.storage.modifier)
-(typ_field "var"? @keyword.storage.modifier)
 
 [
- "let"
- "class"
- "func"
- "type"
- "actor"
- "object"
+ "let"    "class" "func"
+ "type"   "actor" "object"
  "module"
 ] @keyword.storage.type
+
 (dec_var "var" @keyword.storage.type)
 
-[
- "!"
- "?"
- "->"
- "+"
- "-"
- "*"
- "/"
- "%"
- "+%"
- "-%"
- "*%"
- "|"
- "&"
- "^"
- "#"
- "**"
- "**%"
- "=="
- "!="
- " > "
- " < "
- "<="
- ">="
- "<<"
- " >>"
- "<<>"
- "<>>"
- "+="
- "-="
- "*="
- "/="
- "%="
- "**-"
- "+%="
- "-%="
- "*%="
- "**%="
- "&="
- "|="
- "^="
- "<<="
- ">>="
- "<<>="
- "<>>="
- "@="
- "<:"
- ":="
- "^="
- "="
- "^"
+"var" @keyword.storage.modifier
+
+"prim" @keyword.directive
+
+op: [
+ "="   "|>"  "+"    "-"   "*"   "/"  "%"   "+%"  "-%"   "*%"   "|"
+ "&"   "^"   "#"    "**"  "**%" "==" "!="  " > " " < "  "<="   ">="
+ "<<"  " >>" "<<>"  "<>>" "+="  "-=" "*="  "/="  "%="   "**-"  "+%="
+ "-%=" "*%=" "**%=" "&="  "|="  "^=" "<<=" ">>=" "<<>=" "<>>=" "@="
 ] @operator
 
+unary: "!" @keyword.control
+
+(do_exp
+ "?" @keyword.control
+)
+
+unary: "?" @operator
+
+(typ_empty_variant
+ [
+  "{" "#" "}"
+ ] @type.enum.variant
+)
+
+[
+ "#" "<:"
+] @punctuation.special
+
 (nat) @constant.numeric.integer
+
 (float) @constant.numeric.float
-(linecomment) @comment.line
-(blockcomment) @comment.block
 
-(typ_id top: (name) @namespace)
-(typ_id name: (name) @type.builtin
- (#match? @type.builtin "^(Bool|Char|Text|Float|Int|Int8|Int16|Int32|Int64|Nat|Nat8|Nat16|Nat32|Nat64|Blob|Principal|Error)$"))
-(typ_id name: (name) @type)
+(line_comment) @comment.line
 
-[
-  ":"
-  ";"
-  ","
-  "."
-] @punctuation.delimiter
+(block_comment) @comment.block
 
-[
- "["
- "]"
- "{"
- "}"
- "("
- ")"
- "<"
- ">"
-] @punctuation.bracket
+(doc_comment) @comment.block.documentation
 
-(imp . (name) @namespace)
+(typ_id
+ type_name: (name) @type.builtin
+ (#any-of? @type.builtin 
+  "Bool"      "Char"  "Text"
+  "Float"     "Int"   "Int8"
+  "Int16"     "Int32" "Int64"
+  "Nat"       "Nat8"  "Nat16"
+  "Nat32"     "Nat64" "Blob"
+  "Principal" "Error" "Region"
+ )
+)
 
-(exp_variant variant: (name) @tag)
-(pat_plain variant_name: (name) @tag)
-(typ_tag) @tag
-
+(imp
+ module_pattern: [
+  (variable
+   variable_name: (name) @namespace
+  )
+  (pat_bin
+   (variable
+    variable_name: (name) @namespace
+   )
+  )
+ ]?
+ module_path: (text) @string.special.path
+)
+ 
 (placeholder) @constant.builtin
 
-(typ_field name: (name) @variable.other.member)
-(typ_bind binding: (name) @constant)
-
-(dec_func pat: (pat_tuple (name) @variable.parameter))
-(dec_func pat: (pat_tuple (pat_bin) @variable.parameter))
-(dec_func name: (name) @function)
-(dec_type name: (name) @type)
-
-(label name: (name) @label)
-(break label: (name) @label)
-
 (char (escape) @constant.character.escape)
+
 (char) @constant.character
 
 (text (escape) @constant.character.escape)
+
 (text) @string
 
-(call invoked: (name) @function)
-(call invoked: (exp_post member: (name) @function))
+(call_exp
+ invoked_value: (exp_post
+  (member
+   key: (name) @function
+  )
+  .
+ )
+)
 
-(dec (name) @variable)
-(exp (name) @variable)
-(exp_field name: (name) @variable.other.member)
-(exp_post member: (name) @variable)
+(call_exp
+ invoked_value: (variable
+  variable_name: (name) @function
+ )
+)
+
+(exp_post
+ .
+ (_
+  indexed_value: (variable
+   variable_name: (name) @namespace
+  )
+ )
+)
+
+(member
+ key: (name) @variable.other.member
+)
+
+(typ_component
+ component_name: (name) @type
+)
+
+(_
+ variant_name: (name) @type.enum.variant
+)
+
+(_
+ field_name: (name) @variable.other.member
+)
+
+(_
+ function_name: (name) @function
+)
+
+(_
+ module_name: (name) @namespace
+)
+
+(_
+ class_name: (name) @namespace
+)
+
+(_
+ object_name: (name) @namespace
+)
+
+(_
+ label_name: (name) @label
+)
+
+(_
+ type_parameter_name: (name) @type.parameter
+)
+
+(_
+ type_name: (name) @type
+)
+
+(_
+ parameter_name: (name) @variable.parameter
+)
+
+(_
+ variable_name: (name) @variable
+)
+
+(typ_item
+ tuple_component_name: (name) @comment.block.documentation
+)
+
+[
+  ":" ";" "," "."
+] @punctuation.delimiter
+
+[
+ "[" "]" "{" "}"
+ "(" ")" "<" ">"
+] @punctuation.bracket
+
